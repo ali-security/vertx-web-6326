@@ -32,6 +32,11 @@ jobs:
           distribution: temurin
       - name: Run tests
         run: mvn -s .github/maven-ci-settings.xml clean verify -B
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: artifact-4.x-${{ matrix.jdk }}-${{ matrix.os }}
+          path: "**/target/*.jar"
   Apollo-Link-Tests:
     runs-on: ubuntu-latest
     strategy:
@@ -55,7 +60,7 @@ jobs:
         working-directory: vertx-web-graphql/tests/apollo
       - run: npm run test
         working-directory: vertx-web-graphql/tests/apollo
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
           name: ApolloTestsServer.log
@@ -86,7 +91,7 @@ jobs:
         working-directory: vertx-web-graphql/tests/graphql-ws
       - run: npm run test
         working-directory: vertx-web-graphql/tests/graphql-ws
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
           name: GraphQLWSTestsServer.log
@@ -117,7 +122,7 @@ jobs:
         working-directory: vertx-web/tests/sockjs
       - run: npm run test
         working-directory: vertx-web/tests/sockjs
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v4
         if: ${{ always() }}
         with:
           name: SockJSWriteHandlerTestServer.log
